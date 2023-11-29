@@ -11,7 +11,7 @@ const headers = {
 export const api = axios.create({
   // baseURL: "http://localhost:4500",
   // baseURL: "http://3.225.162.35:8080",
-  baseURL: "http://52.0.133.214:8080"
+  baseURL: "https://52.0.133.214:8080"
 });
 
 export const createSession = async (email, password) => {
