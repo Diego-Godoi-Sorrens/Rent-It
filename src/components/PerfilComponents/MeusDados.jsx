@@ -96,7 +96,7 @@ const MeusDados = () => {
           isOpen={openModal}
           setModalOpen={() => setOpenModal(!openModal)}
         >
-          <FormModalPerfil user={user} />
+          <FormModalPerfil user={user} setCurrentPhoto={setCurrentPhoto} />
         </Modal>
       )}
     </>
@@ -309,7 +309,7 @@ const FormModal = ({ user }) => {
   );
 };
 
-const FormModalPerfil = ({ user }) => {
+const FormModalPerfil = ({ user, setCurrentPhoto }) => {
   const [formValues, setFormValues] = useState({});
 
   const handleChange = (event) => {
@@ -328,7 +328,8 @@ const FormModalPerfil = ({ user }) => {
     console.log("submit", user.userId);
     // patchFotoUserById(user.userId, file);
     await uploadToFirebaseStorage(user.id, file, false)
-      .then(() => {
+      .then((foto) => {
+        setCurrentPhoto(foto)
         console.log("Arquivo enviado com sucesso!");
       })
       .catch((error) => {

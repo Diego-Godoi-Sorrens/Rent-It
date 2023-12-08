@@ -5,6 +5,8 @@ import {
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyBsGndTacp6dfoR6eFGgfiE9XiJVIEGflw",
   authDomain: "rent-it-3eb1d.firebaseapp.com",
@@ -40,5 +42,42 @@ export const uploadToFirebaseStorage = async (id, imageUpload, isItem) => {
 
   const imageRef = storageRef(storage, `${path + pathId + imageName}`);
 
-  await uploadBytes(imageRef, imageUpload);
+  console.log(getDownloadURL(storageRef(storage, "users/17/jojo.jpeg")));
+
+
+  // await uploadBytes(imageRef, imageUpload);
+
+  const snapshot = await uploadBytes(imageRef, imageUpload);
+
+    // Agora, obtenha o URL de download do arquivo usando o método getDownloadURL
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
+    console.log('Arquivo carregado com sucesso. URL de download:', downloadURL);
+
+    return downloadURL;
+};
+
+
+export const getFirebaseStorage = async (id, isItem) => {
+  return new Promise(async (resolve, reject) => {
+    const path = isItem ? 'items/' : 'users/';
+    const pathId = `/${id}/`;
+    const imageName = 'foto-perfil'; // Pode ser personalizado conforme necessário
+
+    const imageRef = storageRef(storage, `${path + pathId + imageName}`);
+
+    try {
+      const snapshot = await uploadBytes(imageRef, new Uint8Array(0)); // Substitua pelo seu uploadBytes real
+
+      // Obtenha o URL de download do arquivo usando o método getDownloadURL
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      console.log('Arquivo carregado com sucesso. URL de download:', downloadURL);
+
+      resolve(downloadURL);
+    } catch (error) {
+      console.error('Erro ao carregar a foto:', error);
+      reject(error);
+    }
+  });
 };
