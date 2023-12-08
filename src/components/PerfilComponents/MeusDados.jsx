@@ -7,12 +7,13 @@ import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth";
 import { endereco, foto } from "../../constants";
 import MeusDadosImg from "../../images/meusDados.svg";
-import { uploadToFirebaseStorage } from "../../main";
+import { uploadToFirebaseStorage } from "./teste";
 
 const MeusDados = () => {
   const { user } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
   const [isPerfil, setIsPerfil] = useState(false);
+  const [currentPhoto, setCurrentPhoto] = useState(foto);
 
   return (
     <>
@@ -32,7 +33,7 @@ const MeusDados = () => {
             <h3 className="font-bold">Foto de Perfil</h3>
             <Avatar
               alt={`${user.nome}`}
-              src={`${foto}`}
+              src={`${currentPhoto}`}
               className="min-w-[120px] min-h-[120px] border-[3px] border-primary"
             />
           </div>
@@ -326,7 +327,7 @@ const FormModalPerfil = ({ user }) => {
     const file = formValues.foto;
     console.log("submit", user.userId);
     // patchFotoUserById(user.userId, file);
-    await uploadToFirebaseStorage(file)
+    await uploadToFirebaseStorage(user.id, file, false)
       .then(() => {
         console.log("Arquivo enviado com sucesso!");
       })
