@@ -6,7 +6,8 @@ import { Endereco, Modal } from "../index";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth";
 import { endereco, foto } from "../../constants";
-import MeusDadosImg from "../../images/meusDados.svg"
+import MeusDadosImg from "../../images/meusDados.svg";
+import { uploadToFirebaseStorage } from "../../main";
 
 const MeusDados = () => {
   const { user } = useContext(AuthContext);
@@ -320,11 +321,18 @@ const FormModalPerfil = ({ user }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const file = formValues.foto;
     console.log("submit", user.userId);
-    patchFotoUserById(user.userId, file);
+    // patchFotoUserById(user.userId, file);
+    await uploadToFirebaseStorage(file)
+      .then(() => {
+        console.log("Arquivo enviado com sucesso!");
+      })
+      .catch((error) => {
+        console.error("Erro durante o upload:", error);
+      });
   };
 
   useEffect(() => {

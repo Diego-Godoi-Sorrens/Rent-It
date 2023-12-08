@@ -9,8 +9,8 @@ const headers = {
 };
 
 export const api = axios.create({
-  // baseURL: "http://localhost:4500",
-  baseURL: "http://3.225.162.35:8080",
+  baseURL: "https://localhost:8443",
+  // baseURL: "http://3.225.162.35:8080",
 });
 
 export const createSession = async (email, password) => {
@@ -48,11 +48,11 @@ export const getItemById = async (itemId) => {
 };
 
 export const getFotoItemById = (itemId) => {
-  return `http://3.225.162.35:8080/itens/foto/${itemId}`;
+  return `https://localhost:8443/itens/foto/${itemId}`;
 };
 
 export const getFotoUserById = (userId) => {
-  return `http://3.225.162.35:8080/usuarios/foto/${userId}`;
+  return `https://localhost:8443/usuarios/foto/${userId}`;
 };
 
 export const patchFotoUserById = async (userId, file) => {
@@ -365,12 +365,12 @@ export const postTXT = async (file) => {
 
 export const getTXT = async () => {
   console.log("txt");
-  return `http://3.225.162.35:8080/transacoes/alugados/txt/${UsuarioLogado.userId}`;
+  return `https://localhost:8443/transacoes/alugados/txt/${UsuarioLogado.userId}`;
 };
 
 export const getCSV = async () => {
   console.log("csv");
-  return `http://3.225.162.35:8080/transacoes/csv/${UsuarioLogado.userId}`;
+  return `https://localhost:8443/transacoes/csv/${UsuarioLogado.userId}`;
 };
 
 export const postAlugarItem = async (formValues) => {
